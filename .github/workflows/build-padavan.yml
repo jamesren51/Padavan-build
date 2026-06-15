@@ -100,35 +100,46 @@ jobs:
         echo "CONFIG_FIRMWARE_INCLUDE_ALDRIVER=n" >> .config  #阿里云盘
         echo "CONFIG_FIRMWARE_INCLUDE_ZEROTIER=n" >> .config #zerotier
         echo "CONFIG_FIRMWARE_INCLUDE_ALIDDNS=n" >> .config #aliddns
-        else
-        # ========== 修改2：3.4内核精简配置（你的机器用这段） ==========
+         else
+        # 以下为红米RM2100 专属精简配置，适配128M小内存无USB机型
         echo "CONFIG_FIRMWARE_INCLUDE_MENTOHUST=n" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=n" >> .config
-        echo "CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=n" >> .config #关闭SS，减少内存占用
+        echo "CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=n" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_SSOBFS=n" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_SSSERVER=n" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=n" >> .config
-        echo "CONFIG_FIRMWARE_INCLUDE_ADBYBY=n" >> .config #关闭广告过滤
+        echo "CONFIG_FIRMWARE_INCLUDE_ADBYBY=n" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_FRPC=n" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_FRPS=n" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_TUNSAFE=n" >> .config
-        echo "CONFIG_FIRMWARE_INCLUDE_ALIDDNS=n" >> .config #关闭阿里DDNS
-        echo "CONFIG_FIRMWARE_INCLUDE_SMARTDNS=n" >> .config #关闭SmartDNS省内存
+        echo "CONFIG_FIRMWARE_INCLUDE_ALIDDNS=n" >> .config
+        echo "CONFIG_FIRMWARE_INCLUDE_SMARTDNS=n" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_SMARTDNSBIN=n" >> .config
-        echo "CONFIG_FIRMWARE_INCLUDE_XRAY=y" >> .config #内置Xray轻量核心
-        echo "CONFIG_FIRMWARE_V2RAY_LIGHT=y" >> .config #轻量模式，抛弃大geo库
+        
+        # 核心：内置轻量化V2Ray，不依赖opt分区，不自动下载规则
+        echo "CONFIG_FIRMWARE_INCLUDE_V2RAY=y" >> .config
+        echo "CONFIG_FIRMWARE_V2RAY_LIGHT=y" >> .config
         echo "CONFIG_FIRMWARE_V2RAY_FULL_GEO=n" >> .config
-        echo "CONFIG_FIRMWARE_V2RAY_DOWNLOAD_GEO=n" >> .config #禁止开机下载规则，解决opt报错
-        echo "CONFIG_FIRMWARE_INCLUDE_V2RAY=n" >> .config
+        echo "CONFIG_FIRMWARE_V2RAY_DOWNLOAD_GEO=n" >> .config
+        echo "CONFIG_FIRMWARE_V2RAY_BUILTIN=y" >> .config
+        
         echo "CONFIG_FIRMWARE_INCLUDE_TROJAN=n" >> .config
-        echo "CONFIG_FIRMWARE_INCLUDE_KOOLPROXY=n" >> .config #关闭KP广告过滤
-        echo "CONFIG_FIRMWARE_INCLUDE_CADDY=n" >> .config #关闭文件管理
+        echo "CONFIG_FIRMWARE_INCLUDE_KOOLPROXY=n" >> .config
+        echo "CONFIG_FIRMWARE_INCLUDE_CADDY=n" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_CADDYBIN=n" >> .config
-        echo "CONFIG_FIRMWARE_INCLUDE_ADGUARDHOME=n" >> .config #关闭AdGuard
+        echo "CONFIG_FIRMWARE_INCLUDE_ADGUARDHOME=n" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_SRELAY=n" >> .config
-        echo "CONFIG_FIRMWARE_INCLUDE_WYY=n" >> .config #关闭网易云解锁
+        echo "CONFIG_FIRMWARE_INCLUDE_WYY=n" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_WYYBIN=n" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_ZEROTIER=n" >> .config
+        
+        # 内存优化+关闭冗余功能，适配128M小内存
+        echo "CONFIG_KERNEL_SWAP_SUPPORT=y" >> .config
+        echo "CONFIG_MEMORY_OPTIMIZE=y" >> .config
+        echo "CONFIG_OOM_KILL_ADJUST=y" >> .config
+        echo "CONFIG_FIRMWARE_INCLUDE_IPV6=n" >> .config
+        echo "CONFIG_FIRMWARE_INCLUDE_QOS=n" >> .config
+        echo "CONFIG_FIRMWARE_INCLUDE_FLOW_OFFLOAD=n" >> .config
         fi
         #########################################################################################
         #自定义添加其它功能请参考源码configs/templates/目录下的config文件。按照上面的格式添加即可
